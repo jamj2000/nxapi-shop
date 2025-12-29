@@ -44,6 +44,7 @@ export async function GET(request) {
 
 
 
+
 export async function POST(request) {
     const body = await request.json();
     const product = await prisma.product.create({ data: body });
