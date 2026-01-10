@@ -31,14 +31,25 @@ export async function GET(request) {
         },
     };
 
-    const products = await prisma.product.findMany({ select, take: limit, skip: offset });
+    try {
+        const products = await prisma.product.findMany({ select, take: limit, skip: offset });
 
-    const formattedProducts = products.map(product => ({
-        ...product,
-        images: product.images.map(image => image.url),
-    }));
+        const formattedProducts = products.map(product => ({
+            ...product,
+            images: product.images.map(image => image.url),
+        }));
 
-    return NextResponse.json(formattedProducts);
+        return NextResponse.json(
+            formattedProducts,
+            { status: 200 }
+        );
+    } catch (error) {
+        console.log(error);
+        return NextResponse.json(
+            { error: "Internal server error" },
+            { status: 500 }
+        )
+    }
 }
 
 

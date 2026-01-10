@@ -7,46 +7,55 @@ import jwt from "jsonwebtoken";
 export async function GET(request, { params }) {
     const { id: idOrSlug } = await params;
 
-    const product = await prisma.product.findFirst({
-        where: { OR: [{ id: idOrSlug }, { slug: idOrSlug }] },
-        select: {
-            id: true,
-            title: true,
-            price: true,
-            description: true,
-            slug: true,
-            stock: true,
-            sizes: true,
-            gender: true,
-            tags: true,
-            images: { select: { url: true } },
-            user: {
-                select: {
-                    id: true,
-                    email: true,
-                    fullName: true,
-                    isActive: true,
-                    roles: true,
+
+    try {
+        const product = await prisma.product.findFirst({
+            where: { OR: [{ id: idOrSlug }, { slug: idOrSlug }] },
+            select: {
+                id: true,
+                title: true,
+                price: true,
+                description: true,
+                slug: true,
+                stock: true,
+                sizes: true,
+                gender: true,
+                tags: true,
+                images: { select: { url: true } },
+                user: {
+                    select: {
+                        id: true,
+                        email: true,
+                        fullName: true,
+                        isActive: true,
+                        roles: true,
+                    },
                 },
             },
-        },
-    });
+        });
 
-    if (!product) {
+        if (!product) {
+            return NextResponse.json(
+                { message: "Product not found" },
+                { status: 404 }
+            );
+        }
+
+        const formattedProduct = {
+            ...product,
+            images: product.images.map((image) => image.url),
+        };
         return NextResponse.json(
-            { message: "Product not found" },
-            { status: 404 }
+            formattedProduct,
+            { status: 200 }
         );
+    } catch (error) {
+        console.log(error);
+        return NextResponse.json(
+            { error: "Internal server error" },
+            { status: 500 }
+        )
     }
-
-    const formattedProduct = {
-        ...product,
-        images: product.images.map((image) => image.url),
-    };
-    return NextResponse.json(
-        formattedProduct,
-        { status: 200 }
-    );
 }
 
 
@@ -77,34 +86,43 @@ export async function PATCH(request, { params }) {
         )
     }
 
-    const product = await prisma.product.findUnique({ where: { id } });
+    try {
+        const product = await prisma.product.findUnique({ where: { id } });
 
-    if (!product) {
-        return NextResponse.json(
-            { message: "Product not found" },
-            { status: 404 }
-        );
-    }
-
-    const body = await request.json();
-
-    const updatedProduct = await prisma.product.update({
-        where: { id },
-        data: {
-            ...body,
-            ...(body.images &&
-                { images: { create: body.images.map(image => ({ url: image })) } }),
-        },
-        // incluimos las imágenes en la respuesta
-        include: {
-            images: true,
+        if (!product) {
+            return NextResponse.json(
+                { message: "Product not found" },
+                { status: 404 }
+            );
         }
-    });
 
-    return NextResponse.json(
-        updatedProduct,
-        { status: 200 }
-    );
+        const body = await request.json();
+
+        const updatedProduct = await prisma.product.update({
+            where: { id },
+            data: {
+                ...body,
+                ...(body.images &&
+                    { images: { create: body.images.map(image => ({ url: image })) } }),
+            },
+            // incluimos las imágenes en la respuesta
+            include: {
+                images: true,
+            }
+        });
+
+        return NextResponse.json(
+            updatedProduct,
+            { status: 200 }
+        );
+
+    } catch (error) {
+        console.log(error);
+        return NextResponse.json(
+            { error: "Internal server error" },
+            { status: 500 }
+        )
+    }
 }
 
 
@@ -135,27 +153,37 @@ export async function DELETE(request, { params }) {
         )
     }
 
-    const product = await prisma.product.findUnique({ where: { id } });
 
-    if (!product) {
+    try {
+        const product = await prisma.product.findUnique({ where: { id } });
+
+        if (!product) {
+            return NextResponse.json(
+                { message: "Product not found" },
+                { status: 404 }
+            );
+        }
+
+        const deletedProduct = await prisma.product.delete({
+            where: { id },
+            // incluimos las imágenes en la respuesta
+            include: {
+                images: true,
+            }
+        });
+
         return NextResponse.json(
-            { message: "Product not found" },
-            { status: 404 }
+            deletedProduct,
+            { status: 200 }
         );
+    } catch (error) {
+        console.log(error);
+        return NextResponse.json(
+            { error: "Internal server error" },
+            { status: 500 }
+        )
     }
 
-    const deletedProduct = await prisma.product.delete({
-        where: { id },
-        // incluimos las imágenes en la respuesta
-        include: {
-            images: true,
-        }
-    });
-
-    return NextResponse.json(
-        deletedProduct,
-        { status: 200 }
-    );
 }
 
 

@@ -311,6 +311,9 @@
                 "responses": {
                     "200": {
                         "description": "Product list"
+                    },
+                    "500": {
+                        "description": "Internal server error"
                     }
                 }
             }
@@ -334,6 +337,9 @@
                 "responses": {
                     "200": {
                         "description": "Product found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
                     }
                 }
             }
@@ -357,6 +363,9 @@
                 "responses": {
                     "200": {
                         "description": "Search results"
+                    },
+                    "500": {
+                        "description": "Internal server error"
                     }
                 }
             }
@@ -398,6 +407,9 @@
                     },
                     "403": {
                         "description": "Forbidden"
+                    },
+                    "500": {
+                        "description": "Internal server error"
                     }
                 }
             },
@@ -427,6 +439,9 @@
                     },
                     "403": {
                         "description": "Forbidden"
+                    },
+                    "500": {
+                        "description": "Internal server error"
                     }
                 }
             }
