@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
-
+import jwt from "jsonwebtoken";
 
 
 
@@ -55,10 +55,19 @@ export async function GET(request, { params }) {
 export async function PATCH(request, { params }) {
     const { id } = await params;
 
-    const token = request.headers.get("Authorization");
+    const authHeader = request.headers.get("Authorization");
+
+    if (!authHeader) {
+        return NextResponse.json(
+            { error: "Forbidden" },
+            { status: 403 }
+        )
+    }
+
+    const token = authHeader.split(' ')[1] || authHeader;
 
     // VERIFICAMOS TOKEN
-    const { idUser } = jwt.verify(token, process.env.JWT_SECRET);
+    const { id: idUser } = jwt.verify(token, process.env.JWT_SECRET);
     const user = await prisma.user.findUnique({ where: { id: idUser } });
 
     if (!user) {
@@ -104,10 +113,19 @@ export async function PATCH(request, { params }) {
 export async function DELETE(request, { params }) {
     const { id } = await params;
 
-    const token = request.headers.get("Authorization");
+    const authHeader = request.headers.get("Authorization");
+
+    if (!authHeader) {
+        return NextResponse.json(
+            { error: "Forbidden" },
+            { status: 403 }
+        )
+    }
+
+    const token = authHeader.split(' ')[1] || authHeader;
 
     // VERIFICAMOS TOKEN
-    const { idUser } = jwt.verify(token, process.env.JWT_SECRET);
+    const { id: idUser } = jwt.verify(token, process.env.JWT_SECRET);
     const user = await prisma.user.findUnique({ where: { id: idUser } });
 
     if (!user) {
