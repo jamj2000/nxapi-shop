@@ -8,7 +8,7 @@ import "swagger-ui-dist/swagger-ui.css";
 export default function page() {
     return (
         <div>
-            <div className="h-20 grid place-content-center rounded-lg bg-blue-700 text-white text-4xl">
+            <div className="p-20 grid place-content-center bg-blue-700 text-white text-4xl">
                 API Doc
             </div>
             <SwaggerDocs />
@@ -24,7 +24,7 @@ function SwaggerDocs() {
 
     useEffect(() => {
         SwaggerUI({
-            url: "/swagger.json", // Especificación en archivo /public/swagger.json
+            url: "/openapi.yaml", // Especificación en archivo /public/openapi.yaml
             domNode: uiRef.current,
             layout: "BaseLayout"
         });

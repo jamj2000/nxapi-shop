@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
@@ -68,8 +68,8 @@ export async function PATCH(request, { params }) {
 
     if (!authHeader) {
         return NextResponse.json(
-            { error: "Forbidden" },
-            { status: 403 }
+            { error: "Unauthorized. Token expired or invalid." },
+            { status: 401 }
         )
     }
 
@@ -81,8 +81,8 @@ export async function PATCH(request, { params }) {
 
     if (!user) {
         return NextResponse.json(
-            { error: "Forbidden" },
-            { status: 403 }
+            { error: "Unauthorized. Token expired or invalid." },
+            { status: 401 }
         )
     }
 
@@ -135,8 +135,8 @@ export async function DELETE(request, { params }) {
 
     if (!authHeader) {
         return NextResponse.json(
-            { error: "Forbidden" },
-            { status: 403 }
+            { error: "Unauthorized. Token expired or invalid." },
+            { status: 401 }
         )
     }
 
@@ -148,8 +148,8 @@ export async function DELETE(request, { params }) {
 
     if (!user) {
         return NextResponse.json(
-            { error: "Forbidden" },
-            { status: 403 }
+            { error: "Unauthorized. Token expired or invalid." },
+            { status: 401 }
         )
     }
 
@@ -179,8 +179,8 @@ export async function DELETE(request, { params }) {
     } catch (error) {
         console.log(error);
         return NextResponse.json(
-            { error: "Internal server error" },
-            { status: 500 }
+            { error: "Product title or slug already exists" },
+            { status: 409 }
         )
     }
 

@@ -10,7 +10,7 @@ This is a simple API for a shop application.
 - Product
 - ProductImage
 
-![ER Diagram](public/ER-diagram.png)
+![ER Diagram](ER-diagram.png)
 
 ## Data
 
@@ -21,19 +21,23 @@ This is a simple API for a shop application.
 
 ## Endpoints
 
-- POST /api/products
+- `POST   /api/products`
+- `GET    /api/products`
+- `GET    /api/products/:idOrSlug`
+- `GET    /api/products/all/:term`
+- `PATCH  /api/products/:id`
+- `DELETE /api/products/:id`
 
-- GET /api/products
-- GET /api/products/:idOrSlug
-- GET /api/products/all/:term
+---
 
-- PATCH /api/products/:id
-- DELETE /api/products/:id
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `GET  /api/auth/check-status`
 
+---
 
-- POST /api/auth/register
-- POST /api/auth/login
-- GET /api/auth/check-status
+- `GET  /api/files/product/:imageName`
+- `POST /api/files/product`
 
 
 ## Tech Stack

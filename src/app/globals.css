@@ -24,3 +24,24 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Para ciertas partes del contenido YAML */
+ul {
+  list-style: disc;
+  list-style-position: inside;
+}
+
+blockquote {
+  background-color: #f5f5f5;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+blockquote::before {
+  content: "🛈";
+  display: inline-block;
+  color: blue;
+  font-size: 2em;
+  line-height: 1em;
+  vertical-align: -0.25em;
+}

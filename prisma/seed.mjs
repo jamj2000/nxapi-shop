@@ -6,7 +6,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-    // 1. PELIGRO: Borrar todo
+    // PELIGRO: Borramos todo
     await prisma.productImage.deleteMany();
     await prisma.product.deleteMany();
     await prisma.user.deleteMany();
