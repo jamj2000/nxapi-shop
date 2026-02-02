@@ -5,11 +5,16 @@ import productImages from './data/product_images.json' with { type: 'json' };
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
+const resetDatabase = async () => {
+    console.log("Reiniciando base de datos (TRUNCATE)...");
+    // PostgreSQL
+    await prisma.$executeRaw`TRUNCATE TABLE "users", "products", "product_images" RESTART IDENTITY CASCADE;`;
+}
+
+
 async function main() {
     // PELIGRO: Borramos todo
-    await prisma.productImage.deleteMany();
-    await prisma.product.deleteMany();
-    await prisma.user.deleteMany();
+    await resetDatabase()
 
     console.log("Añadiendo usuarios...")
     await prisma.user.createMany({
