@@ -1,9 +1,12 @@
-import users from './data/users.json' with { type: 'json' };
-import products from './data/products.json' with { type: 'json' };
-import productImages from './data/product_images.json' with { type: 'json' };
+// import users from './data/users.js';
+// import products from './data/products.js';
+// import productImages from './data/product-images.js';
+
+import { users, products, productImages } from './data.mjs';
 
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
+
 
 const resetDatabase = async () => {
     console.log("Reiniciando base de datos (TRUNCATE)...");
