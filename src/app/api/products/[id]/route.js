@@ -87,7 +87,10 @@ export async function PATCH(request, { params }) {
     }
 
     try {
-        const product = await prisma.product.findUnique({ where: { id } });
+        const product = await prisma.product.findUnique({
+            where: { id },
+            include: { images: true }
+        });
 
         if (!product) {
             return NextResponse.json(
@@ -97,13 +100,26 @@ export async function PATCH(request, { params }) {
         }
 
         const body = await request.json();
+        const { title, price, description, slug, stock, sizes, gender, tags, images = [] } = body;
 
         const updatedProduct = await prisma.product.update({
             where: { id },
             data: {
-                ...body,
-                ...(body.images &&
-                    { images: { create: body.images.map(image => ({ url: image })) } }),
+                title,
+                price,
+                description,
+                slug,
+                stock,
+                sizes,
+                gender,
+                tags,
+                images: {
+                    connectOrCreate: images.map(url => ({
+                        where: { url },
+                        create: { url }
+                    }))
+                },
+                userId: idUser,
             },
             // incluimos las imágenes en la respuesta
             include: {
