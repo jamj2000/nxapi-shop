@@ -1,7 +1,3 @@
-// import users from './data/users.js';
-// import products from './data/products.js';
-// import productImages from './data/product-images.js';
-
 import { users, products, productImages } from './data.mjs';
 
 import { PrismaClient } from '@prisma/client';
