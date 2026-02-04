@@ -114,9 +114,12 @@ export async function PATCH(request, { params }) {
                 gender,
                 tags,
                 images: {
-                    connectOrCreate: images.map(url => ({
-                        where: { url },
-                        create: { url }
+                    // connectOrCreate: images.map(url => ({
+                    //     where: { url },
+                    //     create: { url }
+                    // })),
+                    set: images.map(url => ({
+                        url
                     }))
                 },
                 userId: idUser,
