@@ -1,5 +1,14 @@
-
 export const users = [
+    {
+        id: "0933a07d-a832-4602-b34c-dc16c0a32b5b",
+        email: "test@google.com",
+        password: "$2y$10$N9jvCspHhC8m6xUrozW6O.zgzSlRs38/xPSjde63KyJrr3Vk8NnyO",
+        fullName: "Admin Tester",
+        isActive: true,
+        roles: [
+            "admin"
+        ]
+    },
     {
         id: "80ba6e8b-599f-4fbb-83fa-403cc2b92f6e",
         email: "test1@google.com",

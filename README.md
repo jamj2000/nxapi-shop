@@ -31,8 +31,8 @@ This is a simple API for a shop application.
 
 - `POST   /api/products`
 - `GET    /api/products`
-- `GET    /api/products/:idOrSlug`
 - `GET    /api/products/all/:term`
+- `GET    /api/products/:idOrSlug`
 - `PATCH  /api/products/:id`
 - `DELETE /api/products/:id`
 
