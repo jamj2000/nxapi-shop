@@ -1,6 +1,6 @@
 # API Shop
 
-This is a simple API for a shop application.
+This is a simple API for [a shop application](https://github.com/jamj2000/rn-shop).
 
 [API Shop](https://nxapi-shop.vercel.app)
 
